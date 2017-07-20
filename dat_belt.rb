@@ -24,9 +24,11 @@ when !options[:file]
   return
 end
 
+
 CSV.open(options[:output], "wb") do |csv|
   headers = []
   (1..(options[:cols].to_i)).each do |i|
+    #TODO make everything here optional, enum on letters/numbers, with/without leading characters
     headers.push(options[:prefix] + i.to_s.rjust(options[:cols].to_s.length, "0"))
   end
 
@@ -37,6 +39,7 @@ CSV.open(options[:output], "wb") do |csv|
     f.each_line.with_index do |line, idx|
       row.push(line.chomp.to_i)
       if (idx+1)%options[:cols].to_i == 0
+        # TODO determine how to clean up uneven rows at the end (drop or wrap - make an option?)
         csv << row
         row.clear
       end
@@ -45,7 +48,11 @@ CSV.open(options[:output], "wb") do |csv|
 end
 
 
-# TODO code as OO vs this procedural prototype
+# TODO refactor as OO launch point for script modules
+# TODO consider making this menu driven due to the quantity of other scripts involved
+# Need to ensure that the other scripts remain usable on their own.
+
+# Other scripts I will be adding shortly
 # TODO tc Transposes the comma delimited data in a single row to a single column.
 # TODO tr Transposes the comma delimited data in a single column to rows of N length.
 # TODO cr Returns the number of rows in a set.

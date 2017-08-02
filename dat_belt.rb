@@ -1,14 +1,16 @@
+#!/usr/bin/env ruby
 require 'optparse'
 require 'ostruct'
 require 'csv'
 
 options = OpenStruct.new
-options.output = 'my.csv'
-options.cols = 10
-options.prefix = 'var'
+# set option defaults
+# options.output = 'my.csv'
+# options.cols = 10
+# options.prefix = 'var'
 
 OptionParser.new do |opt|
-  opt.on('-v', '--version', 'Returns current version of this utility') { |o| options[:version] = true }
+  opt.on('-v', '--version', 'Returns current version of this utility.') { |o| options[:version] = true }
   opt.on('-f', '--file FILE_PATH', 'Path to data file to be processed.') { |o| options[:file] = o }
   opt.on('-o', '--ouput FILE_PATH', 'Path to data file to be written.') { |o| options[:output] = o }
   opt.on('-c', '--cols NUMBER_OF_COLUMNS', 'Number of columns to break on.') { |o| options[:cols] = o }
@@ -24,31 +26,19 @@ when !options[:file]
   return
 end
 
-CSV.open(options[:output], "wb") do |csv|
-  headers = []
-  (1..(options[:cols].to_i)).each do |i|
-    headers.push(options[:prefix] + i.to_s.rjust(options[:cols].to_s.length, "0"))
-  end
+# TODO This started as my transpose function, but going to refactor as OO launch point for script modules
+# TODO consider making this menu driven due to the quantity of other scripts involved
+# TODO Need to ensure that the other scripts remain usable on their own.
 
-  csv << headers
-
-  File.open(options[:file]) do |f|
-    row = []
-    f.each_line.with_index do |line, idx|
-      row.push(line.chomp.to_i)
-      if (idx+1)%options[:cols].to_i == 0
-        csv << row
-        row.clear
-      end
-    end
-  end
-end
-
-
-# TODO code as OO vs this procedural prototype
-# TODO tc Transposes the comma delimited data in a single row to a single column.
-# TODO tr Transposes the comma delimited data in a single column to rows of N length.
-# TODO cr Returns the number of rows in a set.
-# TODO cc Returns the number of columns per row in a set.
-# TODO mc Merges columns from separate files to a single file with all columns.
-# TODO mr Merges columns from separate files to a single file with all columns.
+# Other scripts I have started or will be adding shortly
+########## in progress ...
+# TODO trans_cols_by_rows Transposes the comma delimited data in a single column to rows of N length.
+#      see transpose_to_columns.rb
+# TODO ziplines           Returns the number of lines in each record in a zip archive
+# TODO chunker            Splits large files into series of smaller files and creates manifest for easy digestion
+# TODO trans_to_col       Transposes the comma delimited data in a single row to a single column.
+########### in backlog
+# TODO count_records      Returns the number of rows in a set.
+# TODO count_cols         Returns the number of columns per row in a set.
+# TODO merge_cols         Merges columns from separate files to a single file with all columns.
+# TODO merge_rows         Merges rows from separate files with dup columns to a single file with all rows.

@@ -2,6 +2,9 @@
 Small repo to begin aggregating my various data collection and manipulation scripts.
 
 Everything in here should be pretty straightforward, nothing you couldn't do with other tools. I'm collecting these items here to:
+- polish my skills
+  - it's why I'm writing some of my own instead of using existing tools
+  - you will find me pragmatic, however ... in the end, I will use the best tool for the job and I will mention ones I would recommend in the code comments and wiki pages as I continue to flesh this out
 - create a single resource I can turn to for many of my data needs
 - customize tools specific to some of my use cases
   - for example, in writing a lot of test config files for some brief API performance testing with JMeter I performed, I found it useful to have a script that will take a single column CSV and transform it into a multicolumn, multirow CSV to facilitate building JSON payloads of various sizes.
